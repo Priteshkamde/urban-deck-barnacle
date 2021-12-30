@@ -1,2 +1,2 @@
 # urban-deck-barnacle
-Tech Stack in Use - React Native 
+Tech Stack in Use - React Native | Expo
