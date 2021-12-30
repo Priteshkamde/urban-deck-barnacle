@@ -1,48 +1,45 @@
-import { StatusBar } from 'expo-status-bar';
+import { setStatusBarBackgroundColor, StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import Header from './components/header';
+import TodoItem from './components/todoItem';
 
 export default function App() {
 
-  const [people, setPeople] = useState([
-    { name: 'john wick', id: '1' },
-    { name: 'tom cruise', id: '2' },
-    { name: 'ironman', id: '3' },
-    { name: 'batman', id: '4' },
-    { name: 'spiderman', id: '5' },
-    { name: 'superman', id: '6' },
+  const [todos, setTodos] = useState([
+    { text: 'buy coffee', key: '1' },
+    { text: 'jogging', key: '2' },
+    { text: 'swim', key: '3' },
+    { text: 'work', key: '4' },
   ]);
 
 
-  const pressHandlerOpacity = (id) => {
-    console.log(id);
-    setPeople((prevState_people) => {
-      return prevState_people.filter(person => person.id != id)
-    }
-    )
+  const onToDoItemPressHandler = (key) => {
+    console.log(key);
+    setTodos((previousStateOfTodos) => {
+      return previousStateOfTodos.filter(todo => todo.key != key)
+    });
   }
+
 
   return (
 
     <View style={styles.container}>
-      <StatusBar
-        backgroundColor='yellow'
-      />
+      <StatusBar backgroundColor='#d9b3e6' />
+      <Header />
+      <View style={styles.content}>
+        {/*  To- Form */}
+        <View style={styles.listStyle}>
+          <FlatList
+            data={todos}
+            renderItem={({ item }) => (
+              <TodoItem item={item} onToDoItemPressHandler={onToDoItemPressHandler} />
+            )
+            }
+          />
+        </View>
 
-      {/* FlatList has better performance, Loads as per usage */}
-
-      <FlatList
-        numColumns={2}
-        idExtractor={(item) => item.id}
-        data={people}
-        renderItem={
-          ({ item }) => (
-            <TouchableOpacity onPress={() => pressHandlerOpacity(item.id)}>
-              <Text style={styles.eachPeopleStyle}>{item.name}</Text>
-            </TouchableOpacity>
-          )
-        }
-      />
+      </View>
 
     </View>
   );
@@ -52,10 +49,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFF',
-    paddingTop: 40,
-    paddingHorizontal: 20,
     // alignItems: 'center',
     // justifyContent: 'center',
+  },
+  content: {
+    padding: 20,
+  },
+  listStyle: {
+    marginTop: 50,
   },
   header: {
     backgroundColor: 'pink',
@@ -81,5 +82,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginHorizontal: 10,
     marginTop: 10,
-  }
+  },
 });
