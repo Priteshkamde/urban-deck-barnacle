@@ -1,12 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList } from 'react-native';
 
 export default function App() {
 
-  const [name, setName] = useState("prit")
-  const [age, setAge] = useState(24)
-
+  const [people, setPeople] = useState([
+    { name: 'john wick', key: '1' },
+    { name: 'tom cruise', key: '2' },
+    { name: 'iron man', key: '3' },
+    { name: 'batman', key: '4' },
+    { name: 'spider man', key: '5' },
+    { name: 'batman', key: '6' },
+    { name: 'spider man', key: '7' },
+    { name: 'spider man', key: '8' },
+    { name: 'batman', key: '10' },
+    { name: 'spider man', key: '11' },
+    { name: 'batman', key: '12' },
+    { name: 'spider man', key: '13' },
+  ]);
 
   return (
 
@@ -15,23 +26,33 @@ export default function App() {
         backgroundColor='pink'
       />
 
-      <Text> Enter Name </Text>
-      <TextInput style={styles.inputStyle}
-        placeholder='John Doe'
-        onChangeText={(val) => setName(val)}
-      />
+      {/* ScrollView */}
+      {/* 
+      <ScrollView>
+        {
+          people.map((eachPeople) => {
+            return (
+              <View key={eachPeople.key}>
+                <Text style={styles.eachPeopleStyle}>{eachPeople.name}</Text>
+              </View>
+            )
+          })
+        }
+      </ScrollView> */}
 
+      {/* FlatList has better performance, Loads as per usage */}
 
-      <Text> Enter Age </Text>
-      <TextInput style={styles.inputStyle}
-        keyboardType='numeric'
-        placeholder='9999'
-        onChangeText={(val) => setAge(val)}
-      />
+      <FlatList
+        numColumns={2}
+        keyExtractor={(item) => item.id}
+        data={people}
+        renderItem={
+          ({ item }) => (
+            <Text style={styles.eachPeopleStyle}>{item.name}</Text>
+          )
+        }
+      /> 
 
-      <View style={styles.header}>
-        <Text style={styles.boldText}>Hello {name} | {age}</Text>
-      </View>
     </View>
   );
 }
@@ -40,9 +61,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFF',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
+    paddingTop: 40,
+    paddingHorizontal: 20,
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
   header: {
     backgroundColor: 'pink',
@@ -59,5 +81,14 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     width: 200,
+  },
+  eachPeopleStyle: {
+    marginTop: 24,
+    padding: 20,
+    backgroundColor: 'black',
+    color: 'white',
+    fontSize: 15,
+    marginHorizontal: 10,
+    marginTop : 10,
   }
 });
