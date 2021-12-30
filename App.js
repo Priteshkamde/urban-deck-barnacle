@@ -1,57 +1,48 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
 
 export default function App() {
 
   const [people, setPeople] = useState([
-    { name: 'john wick', key: '1' },
-    { name: 'tom cruise', key: '2' },
-    { name: 'iron man', key: '3' },
-    { name: 'batman', key: '4' },
-    { name: 'spider man', key: '5' },
-    { name: 'batman', key: '6' },
-    { name: 'spider man', key: '7' },
-    { name: 'spider man', key: '8' },
-    { name: 'batman', key: '10' },
-    { name: 'spider man', key: '11' },
-    { name: 'batman', key: '12' },
-    { name: 'spider man', key: '13' },
+    { name: 'john wick', id: '1' },
+    { name: 'tom cruise', id: '2' },
+    { name: 'ironman', id: '3' },
+    { name: 'batman', id: '4' },
+    { name: 'spiderman', id: '5' },
+    { name: 'superman', id: '6' },
   ]);
+
+
+  const pressHandlerOpacity = (id) => {
+    console.log(id);
+    setPeople((prevState_people) => {
+      return prevState_people.filter(person => person.id != id)
+    }
+    )
+  }
 
   return (
 
     <View style={styles.container}>
       <StatusBar
-        backgroundColor='pink'
+        backgroundColor='yellow'
       />
-
-      {/* ScrollView */}
-      {/* 
-      <ScrollView>
-        {
-          people.map((eachPeople) => {
-            return (
-              <View key={eachPeople.key}>
-                <Text style={styles.eachPeopleStyle}>{eachPeople.name}</Text>
-              </View>
-            )
-          })
-        }
-      </ScrollView> */}
 
       {/* FlatList has better performance, Loads as per usage */}
 
       <FlatList
         numColumns={2}
-        keyExtractor={(item) => item.id}
+        idExtractor={(item) => item.id}
         data={people}
         renderItem={
           ({ item }) => (
-            <Text style={styles.eachPeopleStyle}>{item.name}</Text>
+            <TouchableOpacity onPress={() => pressHandlerOpacity(item.id)}>
+              <Text style={styles.eachPeopleStyle}>{item.name}</Text>
+            </TouchableOpacity>
           )
         }
-      /> 
+      />
 
     </View>
   );
@@ -89,6 +80,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 15,
     marginHorizontal: 10,
-    marginTop : 10,
+    marginTop: 10,
   }
 });
