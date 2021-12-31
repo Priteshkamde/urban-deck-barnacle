@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 function header() {
     return (
         <View style={styles.header}>
-            <Text style={styles.todoTitleStyle}>My To-Dos</Text>
+            <Text style={styles.todoTitleStyle}>My TO-DOs</Text>
         </View>
     )
 }
